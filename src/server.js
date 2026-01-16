@@ -1,15 +1,28 @@
 import express from "express";
-import dotenv from "dotenv"
-import  Mongoose  from "mongoose";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import router from "./routers/UserRouter.js";
 
-dotenv.config()
+dotenv.config();
 
-const app = express()
-const port = process.env.PORT
-const db = process.env.DATABESE
-app. listen (port,()=>{
-    console.log(`server running on ${port}`)
-})
+const app = express();
 
-Mongoose.connect(db).then(()=>{console.log("DATABESE connected sucussefuly")})
-.catch((error)=>{console.log(`error is ${error}`)})
+app.use(express.json());
+
+app.use("/api/v1", router);
+
+const port = process.env.PORT || 3000;
+const db = process.env.DATABASE;
+
+mongoose
+  .connect(db)
+  .then(() => {
+    console.log("DATABASE connected successfully");
+
+    app.listen(port, () => {
+      console.log(`Server running on ${port}`);
+    });
+  })
+  .catch((error) => {
+    console.log("Database error:", error.message);
+  });
