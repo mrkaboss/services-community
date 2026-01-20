@@ -42,10 +42,10 @@ class Controller {
       if (!comparepassword) {
         return res.status(404).json({ message: "Invalid password" });
       }
-
+          const CREATE = "jhufzsbeuywuy4r"
       const token = jwt.sign(
-        { id: user._id },
-        process.env.SECRET_KEY,
+        { user:user },
+        CREATE,
         { expiresIn: "1d" }
       );
 
@@ -57,6 +57,41 @@ class Controller {
       return res.status(500).json({ message: error.message });
     }
   };
+  static getallUser =async (req,res)=>{
+    const user = await User.find()
+    if(!user){
+      return res.status(404).json({message:"User not found"})
+    }else{
+      return res.status(200).json({message:"User successfully ",user})
+    }
+  };
+  static updateUser = async (req,res)=>{
+    const id = req.params.id
+     const User =await User.findByIdUpdate(id,req.body,{new:true})
+     if(!User){
+      return res.status(404).json({message:"User not found"})
+     }else{
+      return res.status(200).json({message:"User successfully update",User})
+     }
+  }
+  static getOneUser =async (req,res)=>{
+    const id = await User.rep.params.id
+    const User = await User.findById()
+    if(!User){
+      return res.status(404).json({message:"User not found"})
+    }else{
+     return res.status(200).json({message:"User successfully retreved",User}) 
+    }
+    
+  }
+  static delete =async (req,res)=>{
+    const User =await User.deletemany()
+    if(!User){
+      return res.status(404).json({message:"User not found"})
+    }else{
+      return res.status(500).json({message:"User successfully delete",User})
+    }
+  }
 }
 
 export default Controller;
