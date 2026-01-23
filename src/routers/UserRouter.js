@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post("/signup", emailexist, Controller.signup);
 router.post("/login", Controller.login);
-router.get("/users",VerifyAccess('admin'),Controller.getallUser)
+router.post("/users",VerifyAccess('admin'),Controller.getallUser)
 router.get("/getOneUser",VerifyAccess('User'),Controller.getOneUser)
 router.patch("/updateUser",Controller.updateUser);
 export default router;
