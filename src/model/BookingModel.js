@@ -19,6 +19,7 @@ required:[true,"please sepecty date your wont your htis Services"]
   status:{
     type:String,
     enum:["pending","accepted","completed","cancelled"]
+    
   },
   notes:{
     type:String,

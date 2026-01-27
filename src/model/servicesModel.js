@@ -1,5 +1,5 @@
 import mongoose, { Types } from "mongoose";
-import Category from "./Category";
+import Category from "./Category.js";
 import { populate } from "dotenv";
 const servicesSchama = new mongoose.Schema({
 title:{
@@ -10,8 +10,8 @@ description:{
 type:String,
 required:[true,'please description']
 },
-Categorys:{
-   type:mongoose.Schema,Types,ObjectId,
+categorys:{
+   type:mongoose.Schema.Types.ObjectId,
    ref:"Category" 
 },
 price:{
@@ -29,11 +29,10 @@ createdAt:{
 })
 servicesSchama.pre(/^find/,function(next){
     this.populate({
-        path:"Categorys",select:"CategoryName"
+        path:"categorys",select:"CategoryName"
     }).populate({
         path: "provider",select:"names email"
     })
-    next()
 })
-const services = mongoose.model("services",servicesSchama)
-export default services
+const Services = mongoose.model("Services",servicesSchama)
+export default Services

@@ -27,5 +27,30 @@ notes
     }
   } 
    } 
+   static delete = async (req,res)=>{
+    const Booking = await Booking.deletemany()
+    if(!Booking){
+      return res.status(404).json({message:"Booking not found"})
+    }else{
+      return res.status(500).json({message:"delete Booking successfully",Booking})
+    }
+   }
+   static getAllBooking = async (req,res)=>{
+    const Booking = await BookingServices.find()
+    if(!Booking){
+      return res.status(404).json({message:"Booking services not found"})
+    }else{
+      return res.status(500).json({message:"Booking servides successfully",Booking})
+    }
+   }
+   static chengeStatus = async (req,res)=>{
+    const id = req.params.id
+    if(!id){
+      return res.status(404).json({message:"there are no service Booked on this"})
+    }else{
+      const Booking = await BookingServices.findByIdAndUpdate(id.body,{new:true})
+      return res.status(201).json({message:"status successfully update",Booking})
+    }
+   }
 }
 export default BookingServicesController
