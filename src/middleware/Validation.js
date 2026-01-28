@@ -1,3 +1,4 @@
+import Category from "../model/Category.js";
 import User from "../model/UserModel.js";
 
 const emailexist = async (req, res, next) => {
@@ -17,5 +18,14 @@ const emailexist = async (req, res, next) => {
     return res.status(500).json({ message: error.message });
   }
 };
+export const CategoryExist =async(req,res,next)=>{
+  
+  const category = await Category.findOne()
+  if(category){
+    return res.status(404).json({message:"Category already exist"})
+  }else{
+    next()
+  }
+}
 
 export default emailexist;

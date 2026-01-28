@@ -14,6 +14,9 @@ app.use("/api/v1",router);
 
 const port = process.env.PORT || 3000;
 const db = process.env.DATABASE;
+app.listen (port,()=>{
+  console.log('server runing on ${port}')
+})
 
 mongoose
   .connect(db)
@@ -27,3 +30,6 @@ mongoose
   .catch((error) => {
     console.log("Database error:", error.message);
   });
+  app.get ('', (req,res)=>{
+   return res. status(200).json({status:200,message:"welcam to community-services"}) 
+  })
