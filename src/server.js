@@ -7,13 +7,13 @@ import router from "./routers/Index.js";
 dotenv.config();
 
 const app = express();
+const port = process.env.PORT || 3000;
+const db = process.env.DATABASE;
 
 app.use(express.json());
 
 app.use("/api/v1",router);
 
-const port = process.env.PORT || 3000;
-const db = process.env.DATABASE;
 app.listen (port,()=>{
   console.log('server runing on ${port}')
 })
@@ -33,3 +33,8 @@ mongoose
   app.get ('', (req,res)=>{
    return res. status(200).json({status:200,message:"welcam to community-services"}) 
   })
+  app.get('/',(req,res)=>{
+   res.status(200).json({message:"Wellcome to our website"})
+  })
+
+  

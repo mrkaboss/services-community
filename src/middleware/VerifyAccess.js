@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
-
-export function VerifyAccess(passRole) {
-  return (req, res, next) => {
+import { decode } from "jsonwebtoken";
+import User from "../model/UserModel.js";
+export function VerifyAccess(passRoles) {
+  return async (req, res, next) => {
     const token = req.headers["auth-token"];
     console.log(token)
 
@@ -10,13 +11,26 @@ export function VerifyAccess(passRole) {
     }
 
     try {
-      const CREATE = "jhufzsbeuywuy4r";
+      const Decodbtoken = Decodbtoken(token)
+      console.log(Decodbtoken, Decodbtoken?.id)
+      const User = await User.findById(Decodbtoken?.id)
+      if (!User) {
+        return res.status(401).json({ status: 401, message: "unouthentcated" })
+      } else {
+        if (!passRoles.includes(User.lore)) {
+          return res.status(403).json({ statu: 403, message: "unauthorized" })
+        } else {
+          req.User = User
+          return next()
 
-      const VerifyToken = jwt.verify(token, CREATE);
+        }
 
+
+      }
+      const token = jwt.verify({ User: User }, process.env.SECRET_KEY, { expiresIn: "1d" })
       req.user = VerifyToken.user;
 
-      if (passRole !== VerifyToken.user.role) {
+      if (!passRoles.includes(VerifyToken.user.role)) {
         return res.status(401).json({ message: "You don't have access" });
       }
 

@@ -3,7 +3,8 @@ import Category from "../model/Category.js"
 
 class CategoryController{
     static createcategoty = async (req,res)=>{
-     const category = await Category.create(req.body) 
+      const categoryName=req.body
+     const category = await Category.create(categoryName) 
      
      
      if(!category){
@@ -43,7 +44,7 @@ class CategoryController{
     if(!categories){
       return res.status(404).json({message:"category not found"})
     }else{
-      return res.status(500).json({message:"category successfully delete",categories})
+      return res.status(200).json({message:"category successfully delete",categories})
     }
   }
 }

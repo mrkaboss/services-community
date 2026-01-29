@@ -1,6 +1,7 @@
 import User from "../model/UserModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { generaToken } from "../utils/jwtutils.js";
 
 class Controller {
   static signup = async (req, res) => {
@@ -29,30 +30,28 @@ class Controller {
 
   static login = async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { email, password } = req.body
 
       const user = await User.findOne({ email });
 
       if (!user) {
-        return res.status(404).json({ message: "Invalid email" });
-      }
+        return res.status(404).json({ message: "Invalid email or password" });
+      }else{
 
       const comparepassword = bcrypt.compareSync(password, user.password);
 
       if (!comparepassword) {
-        return res.status(404).json({ message: "Invalid password" });
+        return res.status(404).json({ message: "Invalid password or email" });
       }
-          const CREATE = "jhufzsbeuywuy4r"
-      const token = jwt.sign(
-        { user:user },
-        CREATE,
-        { expiresIn: "1d" }
-      );
+      const token = generaTokenenerateToken(user._id);
 
-      return res.status(200).json({
+       return res.status(200).json({
         message: "Login successfully",
         token,
       });
+    }
+
+
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
@@ -89,6 +88,7 @@ class Controller {
     if(!User){
       return res.status(404).json({message:"User not found"})
     }else{
+      const token = generaToken(User?.id)
       return res.status(500).json({message:"User successfully delete",User})
     }
   }

@@ -1,7 +1,7 @@
 import Category from "../model/Category.js";
 import User from "../model/UserModel.js";
 
-const emailexist = async (req, res, next) => {
+ const emailexist = async (req, res, next) => {
   try {
     const { email } = req.body;
 
@@ -18,6 +18,7 @@ const emailexist = async (req, res, next) => {
     return res.status(500).json({ message: error.message });
   }
 };
+export default emailexist
 export const CategoryExist =async(req,res,next)=>{
   
   const category = await Category.findOne()
@@ -28,4 +29,4 @@ export const CategoryExist =async(req,res,next)=>{
   }
 }
 
-export default emailexist;
+
