@@ -1,7 +1,7 @@
 import User from "../model/UserModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { generaToken } from "../utils/jwtutils.js";
+import { generateToken } from "../utils/jwtUtils.js";
 
 class Controller {
   static signup = async (req, res) => {
@@ -43,7 +43,7 @@ class Controller {
       if (!comparepassword) {
         return res.status(404).json({ message: "Invalid password or email" });
       }
-      const token = generaTokenenerateToken(user._id);
+      const token = generateToken(user._id);
 
        return res.status(200).json({
         message: "Login successfully",

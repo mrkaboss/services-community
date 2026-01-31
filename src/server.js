@@ -15,17 +15,13 @@ app.use(express.json());
 app.use("/api/v1",router);
 
 app.listen (port,()=>{
-  console.log('server runing on ${port}')
+  console.log(`server runing on ${port}`)
 })
 
 mongoose
   .connect(db)
   .then(() => {
     console.log("DATABASE connected successfully");
-
-    app.listen(port, () => {
-      console.log(`Server running on ${port}`);
-    });
   })
   .catch((error) => {
     console.log("Database error:", error.message);
